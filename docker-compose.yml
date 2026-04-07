@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  emqx:
+    image: emqx/emqx:latest
+    container_name: emqx
+    restart: unless-stopped
+    ports:
+      - "1883:1883" # MQTT
+      - "8883:8883" # MQTT TLS
+      - "8083:8083" # WebSocket
+      - "8084:8084" # WebSocket TLS
+      - "18083:18083" # Dashboard
+    environment:
+      EMQX_NAME: emqx
+      EMQX_HOST: 127.0.0.1
+    volumes:
+      - ./emqx/data:/opt/emqx/data
+      - ./emqx/log:/opt/emqx/log
