@@ -1,11 +1,20 @@
 version: "3.8"
 
 services:
+  nginx:
+    build:
+      context: ./nginx
+    container_name: smartcar-nginx
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    depends_on:
+      - frontend
+      - backend
+
   frontend:
     image: tazmans/smartcar-frontend:latest
     container_name: smartcar-frontend
-    ports:
-      - "3000:80"
     restart: unless-stopped
     environment:
       API_URL: ${API_URL}
@@ -13,8 +22,6 @@ services:
   backend:
     image: tazmans/smartcar-backend:latest
     container_name: smartcar-backend
-    ports:
-      - "8080:8080"
     restart: unless-stopped
     environment:
       FRONTEND_URL: ${FRONTEND_URL}
