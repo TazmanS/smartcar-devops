@@ -1,4 +1,3 @@
-.emqx
-.env
 
-nginx/.htpasswd
+docker/nginx/.htpasswd
+docker/.env
