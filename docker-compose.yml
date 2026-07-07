@@ -1,5 +1,17 @@
 version: "3.8"
 
+x-backend: &backend-template
+  image: tazmans/smartcar-backend:latest
+  restart: unless-stopped
+  environment:
+    FRONTEND_URL: ${FRONTEND_URL}
+  healthcheck:
+    test: [ "CMD-SHELL", "wget -q -O /dev/null http://localhost:8080/api/health || exit 1" ]
+    interval: 30s
+    timeout: 5s
+    retries: 3
+    start_period: 10s
+
 services:
   nginx:
     build:
@@ -20,17 +32,16 @@ services:
       API_URL: ${API_URL}
 
   backend:
-    image: tazmans/smartcar-backend:latest
+    <<: *backend-template
     container_name: smartcar-backend
-    restart: unless-stopped
-    environment:
-      FRONTEND_URL: ${FRONTEND_URL}
-    healthcheck:
-      test: [ "CMD-SHELL", "wget -q -O /dev/null http://localhost:8080/api/health || exit 1" ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
+
+  backend2:
+    <<: *backend-template
+    container_name: smartcar-backend2
+
+  backend3:
+    <<: *backend-template
+    container_name: smartcar-backend3
 
   watchtower:
     image: containrrr/watchtower:latest

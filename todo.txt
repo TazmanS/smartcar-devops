@@ -1,11 +1,1 @@
-// NGINX
-Reverse Proxy. +++
-Logger. 
-Static Files.
-HTTPS.
-Basic Auth.
-Rate Limiting.
-Load Balancing.
-Gzip.
-Custom Headers.
-Security Headers.
+

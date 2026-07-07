@@ -1,2 +1,4 @@
 .emqx
 .env
+
+nginx/.htpasswd
