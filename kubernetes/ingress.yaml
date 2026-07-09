@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: smartcar-ingress
+
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            
+            backend:
+              service:
+                name: smartcar-backend
+                port:
+                  number: 8080
+
+          - path: /swagger
+            pathType: Prefix
+            
+            backend:
+              service:
+                name: smartcar-backend
+                port:
+                  number: 8080
+
+          - path: /
+            pathType: Prefix
+
+            backend:
+              service:
+                name: smartcar-frontend
+                port: 
+                  number: 80

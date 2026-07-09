@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: smartcar-backend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: smartcar-backend
+
+  template:
+    metadata:
+      labels:
+        app: smartcar-backend
+
+    spec:
+      containers:
+        - name: backend
+          image: tazmans/smartcar-backend:latest
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8080
+
+          envFrom:
+            - configMapRef:
+                name: smartcar-backend-config
+
+
+
+

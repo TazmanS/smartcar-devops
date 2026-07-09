@@ -1,1 +1,10 @@
-
+// KUBER
+Pod
+Deployment
+ReplicaSet
+Service
+ConfigMap
+Secret
+Ingress
+Namespace
+PersistentVolume (short)
