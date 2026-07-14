@@ -1,10 +1,10 @@
 // KUBER
-Pod
-Deployment
-ReplicaSet
-Service
-ConfigMap
-Secret
-Ingress
-Namespace
-PersistentVolume (short)
+Secret.
+Liveness Probe.
+Readiness Probe.
+Requests & Limits.
+PersistentVolume / PersistentVolumeClaim.
+Helm.
+CI/CD GitHub Actions Kubernetes.
+Prometheus + Grafana
+Argo CD.
