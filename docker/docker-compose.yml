@@ -3,14 +3,17 @@ version: "3.8"
 x-backend: &backend-template
   image: tazmans/smartcar-backend:latest
   restart: unless-stopped
-  environment:
-    FRONTEND_URL: ${FRONTEND_URL}
+  env_file:
+    - .env
   healthcheck:
     test: [ "CMD-SHELL", "wget -q -O /dev/null http://localhost:8080/api/health || exit 1" ]
     interval: 30s
     timeout: 5s
     retries: 3
     start_period: 10s
+  depends_on:
+    - postgres
+    - mosquitto
 
 services:
   nginx:
@@ -35,14 +38,6 @@ services:
     <<: *backend-template
     container_name: smartcar-backend
 
-  backend2:
-    <<: *backend-template
-    container_name: smartcar-backend2
-
-  backend3:
-    <<: *backend-template
-    container_name: smartcar-backend3
-
   watchtower:
     image: containrrr/watchtower:latest
     container_name: watchtower
@@ -50,3 +45,27 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 300
+
+  postgres:
+    image: postgres:17
+    container_name: smartcar-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: smartcar-mqtt
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+volumes:
+  postgres_data:
