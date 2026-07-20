@@ -1,3 +1,5 @@
 
 docker/nginx/.htpasswd
 docker/.env
+
+kubernetes/**/secret.env

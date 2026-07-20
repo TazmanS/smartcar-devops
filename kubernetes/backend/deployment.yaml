@@ -27,7 +27,9 @@ spec:
 
           envFrom:
             - configMapRef:
-                name: smartcar-backend-config
+                name: smartcar-config
+            - secretRef:
+                name: smartcar-secret
 
 
 
