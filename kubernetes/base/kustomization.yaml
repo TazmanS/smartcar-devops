@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: smartcar
+
+resources:
+  - namespace.yaml
+
+  - backend/configmap.yaml
+  - backend/deployment.yaml
+  - backend/service.yaml
+
+  - frontend/deployment.yaml
+  - frontend/service.yaml
+
+  - ingress/ingress.yaml
+
+  - mosquitto/deployment.yaml
+  - mosquitto/mosquitto-config.yaml
+  - mosquitto/service.yaml
+
+  - postgres/deployment.yaml
+  - postgres/pvc.yaml
+  - postgres/secret.yaml
+  - postgres/service.yaml
+
+  - migrations/job.yaml
+  

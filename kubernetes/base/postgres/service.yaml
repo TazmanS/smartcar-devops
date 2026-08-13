@@ -9,8 +9,7 @@ spec:
     app: smartcar-postgres
 
   ports:
-    - protocol: TCP
-      port: 5432
+    - port: 5432
       targetPort: 5432
 
   clusterIP: None

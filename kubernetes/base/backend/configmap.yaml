@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: smartcar-backend
+
+data:
+  PORT: ":8080"
+
+  DB_HOST: "smartcar-postgres"
+  DB_PORT: "5432"
+  DB_NAME: "smartcar"
+  DB_USER: "admin"
+  DB_PASSWORD: "password"
+  DB_SSLMODE: "disable"
+
+  MQTT_HOST: "smartcar-mosquitto"
+  MQTT_PORT: "1883"
+  MQTT_CAR_SESSION_KEY: "smartcar-esp32"
+
+  ESP32_URL: "http://192.168.31.49"
+  BACKEND_HOST: "http://192.168.31.210"
+  BACKEND_PORT: "8080"

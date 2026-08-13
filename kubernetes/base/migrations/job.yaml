@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: smartcar-migrations
+
+spec:
+  template:
+    spec:
+      containers:
+        - name: migrations
+          image: tazmans/smartcar-migrations:0.0.3
+
+          env:
+            - name: DB_HOST
+              value: smartcar-postgres
+
+            - name: DB_PORT
+              value: "5432"
+
+            - name: DB_NAME
+              value: smartcar
+
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
+
+          command:
+            - /bin/sh
+            - -c
+
+          args:
+            - |
+              migrate \
+                -path /migrations \
+                -database "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" \
+                up
+
+      restartPolicy: Never

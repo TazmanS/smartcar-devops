@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: tazmans/smartcar-backend:latest
+          image: tazmans/smartcar-backend:0.0.3
           imagePullPolicy: Always
 
           ports:
@@ -27,9 +27,7 @@ spec:
 
           envFrom:
             - configMapRef:
-                name: smartcar-config
-            - secretRef:
-                name: smartcar-secret
+                name: smartcar-backend
 
 
 
