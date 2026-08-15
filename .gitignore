@@ -3,3 +3,22 @@ docker/nginx/.htpasswd
 docker/.env
 
 kubernetes/**/secret.env
+
+# Terraform state
+terraform/*.tfstate
+terraform/*.tfstate.*
+
+# Terraform working directory
+terraform/.terraform/
+
+# Terraform crash logs
+terraform/crash.log
+terraform/crash.*.log
+
+# Terraform variable files with potentially sensitive values
+terraform/*.tfvars
+terraform/*.tfvars.json
+
+# Terraform CLI config
+terraform/.terraformrc
+terraform/terraform.rc
