@@ -1,0 +1,19 @@
+---
+- name: Install k3s server
+  hosts: control_plane
+  become: true
+
+  tasks:
+    - name: Install k3s server
+      ansible.builtin.shell:
+        cmd: curl -sfL https://get.k3s.io | sh -
+        creates: /usr/local/bin/k3s
+
+    - name: Read k3s node token
+      ansible.builtin.slurp:
+        src: /var/lib/rancher/k3s/server/node-token
+      register: k3s_token
+
+    - name: Store k3s token
+      ansible.builtin.set_fact:
+        k3s_node_token: "{{ k3s_token.content | b64decode | trim }}"

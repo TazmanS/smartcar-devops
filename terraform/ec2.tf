@@ -17,8 +17,9 @@ resource "aws_instance" "control_plane" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "smartcar-control-plane"
-    Role = "control-plane"
+    Name    = "smartcar-control-plane"
+    Project = "smartcar"
+    Role    = "control-plane"
   }
 }
 
@@ -36,7 +37,8 @@ resource "aws_instance" "worker" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "smartcar-worker"
-    Role = "worker"
+    Name    = "smartcar-worker"
+    Project = "smartcar"
+    Role    = "worker"
   }
 }
