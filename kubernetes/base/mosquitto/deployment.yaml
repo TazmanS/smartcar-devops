@@ -30,6 +30,15 @@ spec:
               mountPath: /mosquitto/config/mosquitto.conf
               subPath: mosquitto.conf
 
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+
       volumes:
         - name: mosquitto-config
           configMap:
