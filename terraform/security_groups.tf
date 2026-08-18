@@ -21,8 +21,8 @@ resource "aws_security_group" "control_plane" {
 
   ingress {
     description = "MQTT"
-    from_port   = 1883
-    to_port     = 1883
+    from_port   = 31883
+    to_port     = 31883
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
