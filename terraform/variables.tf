@@ -37,3 +37,12 @@ variable "worker_instance_type" {
   type    = string
   default = "t3.small"
 }
+
+variable "cloudflare_api_token" {
+  type      = string
+  sensitive = true
+}
+
+variable "cloudflare_zone_id" {
+  type = string
+}

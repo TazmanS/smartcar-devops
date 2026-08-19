@@ -4,6 +4,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.0"
     }
+
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 5.0"
+    }
   }
 
   required_version = ">= 1.9.0"
@@ -12,3 +17,5 @@ terraform {
 provider "aws" {
   region = var.aws_region
 }
+
+provider "cloudflare" {}
