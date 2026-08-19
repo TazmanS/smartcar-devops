@@ -5,8 +5,14 @@ metadata:
   name: smartcar-ingress
 
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - smartcar.shumilov.dev
+      secretName: smartcar-tls
   rules:
-    - http:
+    - host: smartcar.shumilov.dev
+      http:
         paths:
           - path: /api
             pathType: Prefix
