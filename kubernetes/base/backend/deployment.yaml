@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: tazmans/smartcar-backend:0.0.4
+          image: tazmans/smartcar-backend:0.0.5
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -25,7 +25,6 @@ spec:
             requests:
               cpu: "100m"
               memory: "128Mi"
-
             limits:
               cpu: "500m"
               memory: "512Mi"
