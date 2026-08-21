@@ -7,4 +7,6 @@ metadata:
 data:
   mosquitto.conf: |
     listener 1883
+    log_type subscribe
+    log_type unsubscribe
     allow_anonymous true
