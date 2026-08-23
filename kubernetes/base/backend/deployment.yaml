@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: tazmans/smartcar-backend:0.0.8
+          image: tazmans/smartcar-backend:0.0.9
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
