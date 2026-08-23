@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: tazmans/smartcar-frontend:0.0.2
+          image: tazmans/smartcar-frontend:0.0.3
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
@@ -22,7 +22,6 @@ spec:
             requests:
               cpu: "50m"
               memory: "64Mi"
-
             limits:
               cpu: "200m"
               memory: "256Mi"
