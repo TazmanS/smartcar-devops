@@ -17,3 +17,8 @@ output "worker_private_ip" {
   description = "Private IP address of the worker"
   value       = aws_instance.worker.private_ip
 }
+
+output "control_plane_eip" {
+  description = "Elastic IP of the Kubernetes control-plane"
+  value       = aws_eip.control_plane.public_ip
+}

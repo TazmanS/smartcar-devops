@@ -12,6 +12,10 @@ spec:
     - hosts:
         - smartcar.shumilov.dev
       secretName: smartcar-tls
+
+    - hosts:
+        - stream.smartcar.shumilov.dev
+      secretName: smartcar-stream-tls
   rules:
     - host: smartcar.shumilov.dev
       http:
@@ -42,3 +46,14 @@ spec:
                 name: smartcar-frontend
                 port: 
                   number: 80
+
+    - host: stream.smartcar.shumilov.dev
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: smartcar-backend
+                port:
+                  number: 8080

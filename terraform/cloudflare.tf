@@ -3,7 +3,7 @@ resource "cloudflare_dns_record" "smartcar" {
 
   name    = "smartcar"
   type    = "A"
-  content = aws_instance.control_plane.public_ip
+  content = aws_eip.control_plane.public_ip
   ttl     = 1
   proxied = true
 }
@@ -13,7 +13,17 @@ resource "cloudflare_dns_record" "mqtt" {
 
   name    = "mqtt"
   type    = "A"
-  content = aws_instance.control_plane.public_ip
+  content = aws_eip.control_plane.public_ip
+  ttl     = 1
+  proxied = false
+}
+
+resource "cloudflare_dns_record" "stream" {
+  zone_id = var.cloudflare_zone_id
+
+  name    = "stream"
+  type    = "A"
+  content = aws_eip.control_plane.public_ip
   ttl     = 1
   proxied = false
 }
