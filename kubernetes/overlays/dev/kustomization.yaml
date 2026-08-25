@@ -15,6 +15,15 @@ patchesJson6902:
       name: smartcar-ingress
     path: ingress-patch.yaml
 
+  - target:
+      version: v1
+      kind: Service
+      name: smartcar-mosquitto
+    path: mosquitto-service-patch.yaml
+
+patchesStrategicMerge:
+  - backend-configmap-patch.yaml
+
 images:
   - name: tazmans/smartcar-backend
     newTag: 0.0.8
