@@ -26,10 +26,10 @@ patchesStrategicMerge:
 
 images:
   - name: tazmans/smartcar-backend
-    newTag: 0.0.8
+    newTag: 0.0.9
 
   - name: tazmans/smartcar-frontend
     newTag: 0.0.3
 
   - name: tazmans/smartcar-migrations
-    newTag: 0.0.8
+    newTag: 0.0.9
