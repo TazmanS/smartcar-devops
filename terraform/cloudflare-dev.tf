@@ -1,27 +1,27 @@
-resource "cloudflare_dns_record" "smartcar" {
+resource "cloudflare_dns_record" "smartcar_dev" {
   zone_id = var.cloudflare_zone_id
 
-  name    = "smartcar"
+  name    = "smartcar-dev"
   type    = "A"
   content = aws_eip.control_plane.public_ip
   ttl     = 1
   proxied = true
 }
 
-resource "cloudflare_dns_record" "mqtt_smartcar" {
+resource "cloudflare_dns_record" "mqtt_smartcar_dev" {
   zone_id = var.cloudflare_zone_id
 
-  name    = "mqtt.smartcar"
+  name    = "mqtt.smartcar-dev"
   type    = "A"
   content = aws_eip.control_plane.public_ip
   ttl     = 1
   proxied = false
 }
 
-resource "cloudflare_dns_record" "stream_smartcar" {
+resource "cloudflare_dns_record" "stream_smartcar_dev" {
   zone_id = var.cloudflare_zone_id
 
-  name    = "stream.smartcar"
+  name    = "stream.smartcar-dev"
   type    = "A"
   content = aws_eip.control_plane.public_ip
   ttl     = 1

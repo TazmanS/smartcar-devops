@@ -23,23 +23,42 @@
           --force-conflicts
           -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-    - name: Copy Argo CD Application manifest
+    - name: Copy Argo CD production Application manifest
       ansible.builtin.copy:
         src: "{{ playbook_dir }}/argocd/application.yaml"
         dest: /tmp/smartcar-application.yaml
         mode: "0644"
 
-    - name: Apply SmartCar Argo CD Application
+    - name: Apply SmartCar production Argo CD Application
       ansible.builtin.command:
         cmd: kubectl apply -f /tmp/smartcar-application.yaml
 
-    - name: Wait for SmartCar Application to become available
+    - name: Wait for SmartCar production Application
       ansible.builtin.command:
         cmd: kubectl get application smartcar -n argocd
-      register: argocd_application
+      register: argocd_prod_application
       retries: 12
       delay: 5
-      until: argocd_application.rc == 0
+      until: argocd_prod_application.rc == 0
+      changed_when: false
+
+    - name: Copy Argo CD development Application manifest
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/argocd/application-dev.yaml"
+        dest: /tmp/smartcar-dev-application.yaml
+        mode: "0644"
+
+    - name: Apply SmartCar development Argo CD Application
+      ansible.builtin.command:
+        cmd: kubectl apply -f /tmp/smartcar-dev-application.yaml
+
+    - name: Wait for SmartCar development Application
+      ansible.builtin.command:
+        cmd: kubectl get application smartcar-dev -n argocd
+      register: argocd_dev_application
+      retries: 12
+      delay: 5
+      until: argocd_dev_application.rc == 0
       changed_when: false
 
     - name: Get SmartCar Argo CD Application status

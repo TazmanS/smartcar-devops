@@ -1,0 +1,23 @@
+- op: replace
+  path: /spec/tls/0/hosts/0
+  value: smartcar-dev.shumilov.dev
+
+- op: replace
+  path: /spec/tls/0/secretName
+  value: smartcar-dev-tls
+
+- op: replace
+  path: /spec/tls/1/hosts/0
+  value: stream.smartcar-dev.shumilov.dev
+
+- op: replace
+  path: /spec/tls/1/secretName
+  value: smartcar-dev-stream-tls
+
+- op: replace
+  path: /spec/rules/0/host
+  value: smartcar-dev.shumilov.dev
+
+- op: replace
+  path: /spec/rules/1/host
+  value: stream.smartcar-dev.shumilov.dev
