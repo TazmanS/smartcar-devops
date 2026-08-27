@@ -1,8 +1,15 @@
+--- 
 - name: Configure Traefik
   hosts: control_plane
   become: true
 
   tasks:
+    - name: Copy Traefik HelmChartConfig
+      ansible.builtin.copy:
+        src: ../kubernetes/infrastructure/traefik/helmchartconfig.yaml
+        dest: /tmp/helmchartconfig.yaml
+        mode: "0644"
+
     - name: Apply Traefik HelmChartConfig
       ansible.builtin.command:
-        cmd: kubectl apply -f "{{ playbook_dir }}/../kubernetes/infrastructure/traefik/helmchartconfig.yaml"
+        cmd: kubectl apply -f /tmp/helmchartconfig.yaml

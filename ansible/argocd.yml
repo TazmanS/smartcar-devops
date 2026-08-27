@@ -60,13 +60,3 @@
       delay: 5
       until: argocd_dev_application.rc == 0
       changed_when: false
-
-    - name: Get SmartCar Argo CD Application status
-      ansible.builtin.command:
-        cmd: kubectl get application smartcar -n argocd -o yaml
-      register: argocd_application_status
-      changed_when: false
-
-    - name: Show SmartCar Argo CD Application status
-      ansible.builtin.debug:
-        var: argocd_application_status.stdout
