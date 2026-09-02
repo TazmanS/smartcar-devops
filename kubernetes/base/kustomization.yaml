@@ -21,4 +21,8 @@ resources:
   - postgres/service.yaml
 
   - migrations/job.yaml
+
+  - python/configmap.yaml
+  - python/deployment.yaml
+  - python/service.yaml
   

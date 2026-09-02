@@ -20,3 +20,5 @@ data:
 
   ESP32_URL: "http://192.168.31.49"
   BACKEND_HOST: "https://stream.smartcar.shumilov.dev"
+
+  PYTHON_SERVER_URL: "smartcar-python"
