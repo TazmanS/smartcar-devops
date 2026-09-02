@@ -1,12 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 namespace: smartcar-dev
-
 resources:
   - namespace.yaml
   - ../../base
-
 patchesJson6902:
   - target:
       group: networking.k8s.io
@@ -14,22 +11,17 @@ patchesJson6902:
       kind: Ingress
       name: smartcar-ingress
     path: ingress-patch.yaml
-
   - target:
       version: v1
       kind: Service
       name: smartcar-mosquitto
     path: mosquitto-service-patch.yaml
-
 patchesStrategicMerge:
   - backend-configmap-patch.yaml
-
 images:
   - name: tazmans/smartcar-backend
     newTag: 0.0.9
-
   - name: tazmans/smartcar-frontend
-    newTag: 0.0.3
-
+    newTag: 0.0.4-dev
   - name: tazmans/smartcar-migrations
     newTag: 0.0.9
