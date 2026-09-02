@@ -20,8 +20,8 @@ patchesStrategicMerge:
   - backend-configmap-patch.yaml
 images:
   - name: tazmans/smartcar-backend
-    newTag: 0.0.9
+    newTag: 0.0.10-dev
   - name: tazmans/smartcar-frontend
     newTag: 0.0.4-dev
   - name: tazmans/smartcar-migrations
-    newTag: 0.0.9
+    newTag: 0.0.10-dev
