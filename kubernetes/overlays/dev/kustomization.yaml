@@ -26,4 +26,4 @@ images:
   - name: tazmans/smartcar-migrations
     newTag: 0.0.10-dev
   - name: tazmans/smartcar-python
-    newTag: 0.0.2-dev
+    newTag: 0.0.3-dev
