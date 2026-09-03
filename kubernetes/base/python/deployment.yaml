@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: python
-          image: tazmans/smartcar-python:0.0.12
+          image: tazmans/smartcar-python:0.0.13
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
