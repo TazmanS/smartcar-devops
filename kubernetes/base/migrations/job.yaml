@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
         - name: migrations
-          image: tazmans/smartcar-migrations:0.0.11
+          image: tazmans/smartcar-migrations:0.0.12
           env:
             - name: DB_HOST
               value: smartcar-postgres
