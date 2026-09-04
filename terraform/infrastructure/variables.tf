@@ -46,3 +46,8 @@ variable "cloudflare_api_token" {
 variable "cloudflare_zone_id" {
   type = string
 }
+
+variable "ami_id" {
+  type    = string
+  default = "ami-030732eb9042f469b"
+}

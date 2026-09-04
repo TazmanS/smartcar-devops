@@ -4,7 +4,7 @@ resource "aws_key_pair" "main" {
 }
 
 resource "aws_instance" "control_plane" {
-  ami           = data.aws_ami.ubuntu.id
+  ami           = var.ami_id
   instance_type = var.control_plane_instance_type
   key_name      = aws_key_pair.main.key_name
   subnet_id     = aws_subnet.control_plane.id
@@ -29,7 +29,7 @@ resource "aws_instance" "control_plane" {
 }
 
 resource "aws_instance" "worker" {
-  ami           = data.aws_ami.ubuntu.id
+  ami           = var.ami_id
   instance_type = var.worker_instance_type
   key_name      = aws_key_pair.main.key_name
   subnet_id     = aws_subnet.worker.id
