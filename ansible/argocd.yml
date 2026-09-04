@@ -72,3 +72,26 @@
       delay: 5
       until: argocd_dev_application.rc == 0
       changed_when: false
+
+    - name: Copy Argo CD monitoring Application manifest
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/argocd/application-monitoring.yaml"
+        dest: /tmp/application-monitoring.yaml
+        mode: "0644"
+
+    - name: Apply SmartCar monitoring Argo CD Application
+      ansible.builtin.command:
+        cmd: kubectl apply -f /tmp/application-monitoring.yaml
+      register: argocd_monitoring_apply
+      changed_when: >
+        'created' in argocd_monitoring_apply.stdout or
+        'configured' in argocd_monitoring_apply.stdout
+
+    - name: Wait for SmartCar monitoring Application
+      ansible.builtin.command:
+        cmd: kubectl get application monitoring -n argocd
+      register: argocd_monitoring_application
+      retries: 12
+      delay: 5
+      until: argocd_monitoring_application.rc == 0
+      changed_when: false
