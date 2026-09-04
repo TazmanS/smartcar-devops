@@ -13,3 +13,4 @@
     - name: Apply Traefik HelmChartConfig
       ansible.builtin.command:
         cmd: kubectl apply -f /tmp/helmchartconfig.yaml
+      changed_when: false

@@ -16,6 +16,10 @@ spec:
     - hosts:
         - stream.smartcar.shumilov.dev
       secretName: smartcar-stream-tls
+
+    - hosts:
+        - grafana.smartcar.shumilov.dev
+      secretName: grafana-smartcar-tls
   rules:
     - host: smartcar.shumilov.dev
       http:
@@ -57,3 +61,14 @@ spec:
                 name: smartcar-backend
                 port:
                   number: 8080
+
+    - host: grafana.smartcar.shumilov.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 80

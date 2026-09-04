@@ -10,4 +10,4 @@
           kubectl apply
           -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.yaml
       register: cert_manager_install
-      changed_when: "'created' in cert_manager_install.stdout or 'configured' in cert_manager_install.stdout"
+      changed_when: false

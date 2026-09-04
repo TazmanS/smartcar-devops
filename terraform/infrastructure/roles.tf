@@ -1,30 +1,30 @@
-resource "aws_iam_role" "cloudwatch_agent" {
-  name = "smartcar-cloudwatch-agent"
+# resource "aws_iam_role" "cloudwatch_agent" {
+#   name = "smartcar-cloudwatch-agent"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
+#   assume_role_policy = jsonencode({
+#     Version = "2012-10-17"
 
-    Statement = [
-      {
-        Effect = "Allow"
+#     Statement = [
+#       {
+#         Effect = "Allow"
 
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
+#         Principal = {
+#           Service = "ec2.amazonaws.com"
+#         }
 
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
-}
+#         Action = "sts:AssumeRole"
+#       }
+#     ]
+#   })
+# }
 
-resource "aws_iam_role_policy_attachment" "cloudwatch_agent" {
-  role = aws_iam_role.cloudwatch_agent.name
+# resource "aws_iam_role_policy_attachment" "cloudwatch_agent" {
+#   role = aws_iam_role.cloudwatch_agent.name
 
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-}
+#   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+# }
 
-resource "aws_iam_instance_profile" "cloudwatch_agent" {
-  name = "smartcar-cloudwatch-agent"
-  role = aws_iam_role.cloudwatch_agent.name
-}
+# resource "aws_iam_instance_profile" "cloudwatch_agent" {
+#   name = "smartcar-cloudwatch-agent"
+#   role = aws_iam_role.cloudwatch_agent.name
+# }

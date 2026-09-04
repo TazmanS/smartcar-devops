@@ -1,0 +1,28 @@
+---
+- name: Remove CloudWatch Agent
+  hosts: control_plane:worker
+  become: true
+
+  tasks:
+    - name: Stop CloudWatch Agent
+      ansible.builtin.systemd:
+        name: amazon-cloudwatch-agent
+        state: stopped
+        enabled: false
+      failed_when: false
+
+    - name: Remove CloudWatch Agent package
+      ansible.builtin.apt:
+        name: amazon-cloudwatch-agent
+        state: absent
+        purge: true
+
+    - name: Remove CloudWatch Agent configuration
+      ansible.builtin.file:
+        path: /opt/aws/amazon-cloudwatch-agent
+        state: absent
+
+    - name: Remove downloaded package
+      ansible.builtin.file:
+        path: /tmp/amazon-cloudwatch-agent.deb
+        state: absent

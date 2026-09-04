@@ -1,0 +1,135 @@
+---
+- name: Install Helm
+  hosts: control_plane
+  become: true
+
+  tasks:
+    - name: Install Helm
+      ansible.builtin.shell:
+        cmd: curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+        creates: /usr/local/bin/helm
+
+    - name: Check Prometheus Community Helm repository
+      ansible.builtin.command:
+        cmd: helm repo list
+      register: helm_repos
+      changed_when: false
+
+    - name: Add Prometheus Community Helm repository
+      ansible.builtin.command:
+        cmd: helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+      register: prometheus_repo
+      when: "'prometheus-community' not in helm_repos.stdout"
+
+    - name: Add Grafana Helm repositiry
+      ansible.builtin.command:
+        cmd: helm repo add grafana https://grafana.github.io/helm-charts
+      when: "'grafana' not in helm_repos.stdout"
+
+    - name: Add Grafana Community Helm repositiry
+      ansible.builtin.command:
+        cmd: helm repo add grafana-community https://grafana-community.github.io/helm-charts
+      when: "'grafana-community' not in helm_repos.stdout"
+
+    - name: Update Helm repositories
+      ansible.builtin.command:
+        cmd: helm repo update
+      changed_when: false
+
+    - name: Create monitoring namespace
+      ansible.builtin.command:
+        cmd: kubectl create namespace monitoring
+      register: monitoring_namespace
+      failed_when:
+        - monitoring_namespace.rc != 0
+        - "'AlreadyExists' not in monitoring_namespace.stderr"
+      changed_when: 
+        - monitoring_namespace.rc == 0
+
+    - name: Check Prometheus Helm release
+      ansible.builtin.command:
+        cmd: helm status prometheus -n monitoring
+      register: prometheus_status
+      failed_when: false
+      changed_when: false
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Install Prometheus
+      ansible.builtin.command:
+        cmd: >
+          helm install prometheus
+          prometheus-community/prometheus
+          -n monitoring
+      when: prometheus_status.rc != 0
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Check Loki Helm release
+      ansible.builtin.command:
+        cmd: helm status loki -n monitoring
+      register: loki_status
+      failed_when: false
+      changed_when: false
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    # TODO move storage to S3
+    - name: Install Loki
+      ansible.builtin.command:
+        cmd: >
+          helm install loki
+          grafana-community/loki
+          -n monitoring
+          --set deploymentMode=SingleBinary
+          --set loki.storage.type=filesystem
+          --set loki.storage.bucketNames.chunks=chunks
+          --set loki.storage.bucketNames.ruler=ruler
+          --set loki.storage.bucketNames.admin=admin
+          --set loki.limits_config.retention_period=48h
+          --set loki.compactor.retention_enabled=true
+          --set loki.compactor.delete_request_store=filesystem
+          --set singleBinary.replicas=1
+          --set backend.replicas=0
+          --set read.replicas=0
+          --set write.replicas=0
+          --set gateway.replicas=0
+          --set loki.schemaConfig.configs[0].from=2024-04-01
+          --set loki.schemaConfig.configs[0].store=tsdb
+          --set loki.schemaConfig.configs[0].object_store=filesystem
+          --set loki.schemaConfig.configs[0].schema=v13
+          --set loki.schemaConfig.configs[0].index.prefix=index_
+          --set loki.schemaConfig.configs[0].index.period=24h
+          --set chunksCache.enabled=false
+      when: loki_status.rc != 0
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Check Grafana Helm release
+      ansible.builtin.command:
+        cmd: helm status grafana -n monitoring
+      register: grafana_status
+      failed_when: false
+      changed_when: false
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Install Grafana
+      ansible.builtin.command:
+        cmd: >
+          helm install grafana
+          grafana-community/grafana
+          -n monitoring
+          --set datasources."datasources\.yaml".apiVersion=1
+          --set datasources."datasources\.yaml".datasources[0].name=Prometheus
+          --set datasources."datasources\.yaml".datasources[0].type=prometheus
+          --set datasources."datasources\.yaml".datasources[0].url=http://prometheus-server
+          --set datasources."datasources\.yaml".datasources[0].access=proxy
+          --set datasources."datasources\.yaml".datasources[0].isDefault=true
+          --set datasources."datasources\.yaml".datasources[1].name=Loki
+          --set datasources."datasources\.yaml".datasources[1].type=loki
+          --set datasources."datasources\.yaml".datasources[1].url=http://loki:3100
+          --set datasources."datasources\.yaml".datasources[1].access=proxy
+      when: grafana_status.rc != 0
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml

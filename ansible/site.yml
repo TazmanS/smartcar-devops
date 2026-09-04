@@ -3,5 +3,8 @@
 - import_playbook: worker.yml
 - import_playbook: argocd.yml
 - import_playbook: cert-manager.yml
-- import_playbook: cloudwatch-agent.yml
 - import_playbook: traefik.yml
+- import_playbook: helm.yml
+
+
+# - import_playbook: cloudwatch-agent.yml

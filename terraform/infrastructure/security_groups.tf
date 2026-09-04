@@ -36,6 +36,14 @@ resource "aws_security_group" "control_plane" {
   }
 
   ingress {
+    description = "MQTT"
+    from_port   = 31884
+    to_port     = 31884
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     description = "Kubernetes API"
     from_port   = 6443
     to_port     = 6443

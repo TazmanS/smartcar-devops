@@ -15,9 +15,21 @@
   value: smartcar-dev-stream-tls
 
 - op: replace
+  path: /spec/tls/2/hosts/0
+  value: grafana.smartcar-dev.shumilov.dev
+
+- op: replace
+  path: /spec/tls/2/secretName
+  value: smartcar-dev-grafana-tls
+
+- op: replace
   path: /spec/rules/0/host
   value: smartcar-dev.shumilov.dev
 
 - op: replace
   path: /spec/rules/1/host
   value: stream.smartcar-dev.shumilov.dev
+
+- op: replace
+  path: /spec/rules/2/host
+  value: grafana.smartcar-dev.shumilov.dev
