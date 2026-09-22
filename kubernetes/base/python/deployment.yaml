@@ -12,6 +12,8 @@ spec:
       labels:
         app: smartcar-python
     spec:
+      nodeSelector:
+        role: worker
       containers:
         - name: python
           image: tazmans/smartcar-python:0.0.13

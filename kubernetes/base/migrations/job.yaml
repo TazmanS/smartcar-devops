@@ -8,6 +8,8 @@ metadata:
 spec:
   template:
     spec:
+      nodeSelector:
+        role: worker
       containers:
         - name: migrations
           image: tazmans/smartcar-migrations:0.0.12

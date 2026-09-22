@@ -12,6 +12,8 @@ spec:
       labels:
         app: smartcar-frontend
     spec:
+      nodeSelector:
+        role: worker
       containers:
         - name: frontend
           image: tazmans/smartcar-frontend:0.0.5

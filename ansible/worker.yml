@@ -12,3 +12,9 @@
           K3S_TOKEN={{ hostvars[groups['control_plane'][0]]['k3s_node_token'] }}
           sh -
         creates: /usr/local/bin/k3s
+
+    - name: Label worker nodes
+      ansible.builtin.command:
+        cmd: kubectl label node {{ hostvars[item]['ansible_hostname'] }} role=worker --overwrite
+      loop: "{{ groups['worker'] }}"
+      delegate_to: "{{ groups['control_plane'][0] }}"

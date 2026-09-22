@@ -17,6 +17,8 @@ spec:
         app: smartcar-mosquitto
 
     spec:
+      nodeSelector:
+        role: worker
       containers:
         - name: mosquitto
           image: eclipse-mosquitto:2

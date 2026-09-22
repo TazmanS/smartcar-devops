@@ -12,6 +12,8 @@ spec:
       labels:
         app: smartcar-backend
     spec:
+      nodeSelector:
+        role: worker
       containers:
         - name: backend
           image: tazmans/smartcar-backend:0.0.12

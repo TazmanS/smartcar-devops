@@ -17,6 +17,8 @@ spec:
         app: smartcar-postgres
 
     spec:
+      nodeSelector:
+        role: worker
       containers:
         - name: smartcar-postgres
           image: postgres:17
