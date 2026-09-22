@@ -28,7 +28,7 @@ resource "aws_instance" "control_plane" {
   }
 }
 
-resource "aws_instance" "worker" {
+resource "aws_instance" "worker_1" {
   ami           = var.ami_id
   instance_type = var.worker_instance_type
   key_name      = aws_key_pair.main.key_name
@@ -47,7 +47,32 @@ resource "aws_instance" "worker" {
   }
 
   tags = {
-    Name    = "smartcar-worker"
+    Name    = "smartcar-worker-1"
+    Project = "smartcar"
+    Role    = "worker"
+  }
+}
+
+resource "aws_instance" "worker_2" {
+  ami           = var.ami_id
+  instance_type = var.worker_instance_type
+  key_name      = aws_key_pair.main.key_name
+  subnet_id     = aws_subnet.worker.id
+  # iam_instance_profile = aws_iam_instance_profile.cloudwatch_agent.name
+
+  vpc_security_group_ids = [
+    aws_security_group.worker.id
+  ]
+
+  associate_public_ip_address = true
+
+  root_block_device {
+    volume_size = 20
+    volume_type = "gp3"
+  }
+
+  tags = {
+    Name    = "smartcar-worker-2"
     Project = "smartcar"
     Role    = "worker"
   }
