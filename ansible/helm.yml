@@ -101,6 +101,7 @@
           --set loki.schemaConfig.configs[0].index.prefix=index_
           --set loki.schemaConfig.configs[0].index.period=24h
           --set chunksCache.enabled=false
+          --set loki.commonConfig.replication_factor=1
       when: loki_status.rc != 0
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
@@ -130,6 +131,34 @@
           --set datasources."datasources\.yaml".datasources[1].type=loki
           --set datasources."datasources\.yaml".datasources[1].url=http://loki:3100
           --set datasources."datasources\.yaml".datasources[1].access=proxy
+          --set datasources."datasources\.yaml".datasources[1].jsonData.httpHeaderName1=X-Scope-OrgID
+          --set datasources."datasources\.yaml".datasources[1].secureJsonData.httpHeaderValue1=smartcar
       when: grafana_status.rc != 0
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Copy Alloy Helm values
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/files/alloy-values.yaml"
+        dest: /tmp/alloy-values.yaml
+        mode: "0644"
+
+    - name: Check Alloy Helm release
+      ansible.builtin.command:
+        cmd: helm status alloy -n monitoring
+      register: alloy_status
+      failed_when: false
+      changed_when: false
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Install Alloy
+      ansible.builtin.command:
+        cmd: >
+          helm install alloy
+          grafana/alloy
+          -n monitoring
+          -f /tmp/alloy-values.yaml
+      when: alloy_status.rc != 0
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
